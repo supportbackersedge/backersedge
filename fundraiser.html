@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta name="color-scheme" content="only light">
+<style>:root{color-scheme:only light;}</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="preconnect" href="https://form.jotform.com">
@@ -149,14 +151,13 @@
   @media (max-width:760px){.stall-list{grid-template-columns:1fr;}}
 
   /* TRACKS */
-  .tracks{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .tracks{display:grid;grid-template-columns:1fr;gap:24px;max-width:720px;}
   .track{background:#fff;border:1px solid var(--line);border-radius:18px;padding:32px;}
   .track .tag{
     display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
     padding:6px 12px;border-radius:999px;margin-bottom:18px;
   }
   .track.charity .tag{background:rgba(61,107,94,0.12);color:var(--sage);}
-  .track.project .tag{background:rgba(232,184,75,0.18);color:#8a6a15;}
   .track h3{font-size:1.2rem;font-weight:700;margin-bottom:10px;font-style:italic;}
   .track p{color:var(--ink-soft);font-size:1.03rem;}
 
@@ -438,29 +439,28 @@
 
   /* ===== Main-site header (same as index) ===== */
   body{padding-top:68px;}
-  nav.be-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:#1A1A2E;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;font-family:'Inter',system-ui,sans-serif;}
-  .be-logo{font-family:'Playfair Display',Georgia,serif;font-size:1.3rem;font-weight:700;color:#F5C842;text-decoration:none;}
+  nav.be-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:#0a0a0f;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;}
+  .be-logo{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;font-size:1.3rem;font-weight:700;color:#e8b84b;text-decoration:none;}
   .be-center{display:flex;align-items:center;gap:.1rem;list-style:none;margin:0;padding:0;}
   .be-center a{color:rgba(255,255,255,0.75);text-decoration:none;font-size:.78rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:.5rem .7rem;display:flex;align-items:center;transition:color .2s;white-space:nowrap;}
   .be-center a:hover{color:#fff;}
-  .be-center a.be-cta{background:#F5C842;color:#1A1A2E;padding:.5rem 1.3rem;border-radius:50px;font-weight:700;font-size:.75rem;}
+  .be-center a.be-cta{background:#e8b84b;color:#0a0a0f;padding:.5rem 1.3rem;border-radius:50px;font-weight:700;font-size:.75rem;}
   .be-center a.be-cta:hover{background:#D9A800;}
-  .be-mnav{display:none;position:fixed;top:0;left:0;right:0;z-index:200;background:#1A1A2E;height:68px;align-items:center;justify-content:space-between;padding:0 1.25rem;font-family:'Inter',system-ui,sans-serif;}
+  .be-mnav{display:none;position:fixed;top:0;left:0;right:0;z-index:200;background:#0a0a0f;height:68px;align-items:center;justify-content:space-between;padding:0 1.25rem;font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;}
   .be-hamb{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:4px;}
   .be-hamb span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;}
-  .be-mlogo{font-family:'Playfair Display',Georgia,serif;font-size:1.2rem;font-weight:700;color:#F5C842;text-decoration:none;}
-  .be-mcta{width:60px;height:60px;border-radius:50%;background:#F0E0C0;color:#1A1A2E;font-size:.65rem;font-weight:800;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;line-height:1.2;letter-spacing:.05em;text-transform:uppercase;}
-  .be-mcta:hover{background:#F5C842;}
-  .be-drawer{display:none;position:fixed;inset:0;background:#1A1A2E;z-index:300;flex-direction:column;padding:5rem 2rem 2rem;overflow-y:auto;font-family:'Inter',system-ui,sans-serif;}
+  .be-mlogo{font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;font-size:1.2rem;font-weight:700;color:#e8b84b;text-decoration:none;}
+  .be-mcta{width:60px;height:60px;border-radius:50%;background:#F5F0E8;color:#0a0a0f;font-size:.65rem;font-weight:800;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;line-height:1.2;letter-spacing:.05em;text-transform:uppercase;}
+  .be-mcta:hover{background:#e8b84b;}
+  .be-drawer{display:none;position:fixed;inset:0;background:#0a0a0f;z-index:300;flex-direction:column;padding:5rem 2rem 2rem;overflow-y:auto;font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;}
   .be-drawer.open{display:flex;}
   .be-dclose{position:absolute;top:1.25rem;right:1.25rem;background:none;border:none;color:#fff;font-size:1.75rem;cursor:pointer;}
   .be-dlinks{list-style:none;display:flex;flex-direction:column;gap:.25rem;margin:0;padding:0;}
   .be-dlinks a{color:rgba(255,255,255,0.85);text-decoration:none;font-size:1.1rem;font-weight:600;padding:.75rem 0;display:block;border-bottom:1px solid rgba(255,255,255,0.06);}
-  .be-dlinks a:hover{color:#F5C842;}
-  .be-dbtn{margin-top:2rem;background:#F5C842;color:#1A1A2E;padding:1rem 2rem;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none;text-align:center;display:block;}
+  .be-dlinks a:hover{color:#e8b84b;}
+  .be-dbtn{margin-top:2rem;background:#e8b84b;color:#0a0a0f;padding:1rem 2rem;border-radius:50px;font-weight:700;font-size:1rem;text-decoration:none;text-align:center;display:block;}
   @media (max-width:900px){ nav.be-nav{display:none;} .be-mnav{display:flex;} }
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -555,11 +555,6 @@
         <h3>For when the need is real and time matters.</h3>
         <p>Medical bills, emergencies, funerals, education, community causes. We work to drive the donations your campaign needs.</p>
       </div>
-      <div class="track project">
-        <span class="tag">Projects &amp; Crowdfunding</span>
-        <h3>For when your idea deserves backers.</h3>
-        <p>Products, games, films, creative work. We work to drive the backers your project needs.</p>
-      </div>
     </div>
   </div>
 </section>
@@ -633,14 +628,6 @@
       <div class="proof-grid" id="proof-charity"><div class="proof-loading">Loading campaigns…</div></div>
     </div>
 
-    <div class="proof-group">
-      <div class="proof-group-head">
-        <h3>Projects &amp; Ideas</h3>
-        <span>Kickstarter, Indiegogo &amp; similar platforms</span>
-      </div>
-      <div class="proof-grid" id="proof-project"><div class="proof-loading">Loading campaigns…</div></div>
-    </div>
-
     <div class="proof-more">
       <button class="btn btn-primary" onclick="scrollToFee()">Get Donations for My Campaign</button>
     </div>
@@ -698,7 +685,7 @@
       </div>
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">What kinds of campaigns do you work with? <span class="faq-icon">+</span></button>
-        <div class="faq-a">Personal and charity fundraisers (GoFundMe, GiveSendGo and similar) and crowdfunding projects (Kickstarter, Indiegogo, Gamefound and similar).</div>
+        <div class="faq-a">Personal and charity fundraisers on GoFundMe, GiveSendGo and similar platforms.</div>
       </div>
       <div class="faq-item">
         <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">What happens after I submit my campaign link and pay? <span class="faq-icon">+</span></button>
@@ -1074,13 +1061,10 @@ function toggleFaq(el){
     const isPromoting = r => String(r.status || "").trim().toLowerCase() === "promoting";
     const promotingFirst = list => list.filter(isPromoting).concat(list.filter(r => !isPromoting(r)));
     const charity = promotingFirst(featured.filter(r => groupOf(r.platform) === "charity"));
-    const project = promotingFirst(featured.filter(r => groupOf(r.platform) === "project"));
     document.getElementById("proof-charity").innerHTML = charity.length ? charity.map(cardHTML).join("") : `<div class="proof-empty">No featured charity campaigns yet. Check back soon.</div>`;
-    document.getElementById("proof-project").innerHTML = project.length ? project.map(cardHTML).join("") : `<div class="proof-empty">Project campaigns will be featured here as they're completed.</div>`;
   }).catch(err => {
     console.error("Failed to load results:", err);
     document.getElementById("proof-charity").innerHTML = `<div class="proof-empty">Unable to load campaigns right now.</div>`;
-    document.getElementById("proof-project").innerHTML = `<div class="proof-empty">Unable to load campaigns right now.</div>`;
   });
 })();
 
@@ -1260,7 +1244,7 @@ const legalContent = {
     body: `
       <div class="legal-badge">Last updated: October 2026</div>
       <h3>1. Our Service</h3>
-      <p>Backers Edge runs a 14-day outreach push to help fundraisers and crowdfunding projects get donations. We do not guarantee a specific dollar amount, donor count, or funding outcome.</p>
+      <p>Backers Edge runs a 14-day outreach push to help fundraisers get donations. We do not guarantee a specific dollar amount, donor count, or funding outcome.</p>
       <h3>2. Applications</h3>
       <p>Every campaign is checked before the push begins. Backers Edge may decline a campaign that does not fit our service.</p>
       <h3>3. Payments</h3>
@@ -1363,7 +1347,7 @@ const legalContent = {
     body: `
       <div class="legal-badge">Our Story</div>
       <h3>Who We Are</h3>
-      <p>Backers Edge helps fundraisers and crowdfunding projects get the donations they need. We do not collect donations. All donations go directly to your own campaign page.</p>
+      <p>Backers Edge helps fundraisers get the donations they need. We do not collect donations. All donations go directly to your own campaign page.</p>
       <h3>Why We Exist</h3>
       <p>Many good campaigns go quiet once friends and family have given. The organizer is left refreshing a page that won't move. We take over the work of driving donations so they can focus on their cause.</p>
       <h3>What We Stand For</h3>

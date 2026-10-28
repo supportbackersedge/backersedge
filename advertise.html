@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta name="color-scheme" content="only light">
+<style>:root{color-scheme:only light;}</style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Advertise | Backers Edge</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --cream: #FAF8F4; --white: #FFFFFF; --dark: #1A1A2E; --dark2: #2C2C3E;
-      --gold: #F5C842; --gold-dark: #D4A91E; --muted: #6B6B80; --border: #E8E4DC;
-      --display: 'Playfair Display', serif; --body: 'Inter', sans-serif;
+      --cream: #F5F0E8; --white: #FFFFFF; --dark: #0a0a0f; --dark2: #1c1a16;
+      --gold: #e8b84b; --gold-dark: #c99a2e; --muted: #5b564c; --border: #E5DDD0;
+      --display: 'Segoe UI','Helvetica Neue',Arial,sans-serif; --body: 'Segoe UI','Helvetica Neue',Arial,sans-serif;
     }
     html { scroll-behavior: smooth; }
     body { background: var(--white); color: var(--dark); font-family: var(--body); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
@@ -42,7 +43,7 @@
     .mobile-logo { font-family: var(--display); font-size: 1.2rem; font-weight: 700; color: var(--gold); text-decoration: none; }
     .mobile-cta {
       width: 60px; height: 60px; border-radius: 50%;
-      background: #F0E0C0; color: var(--dark);
+      background: #F5F0E8; color: var(--dark);
       font-size: 0.65rem; font-weight: 800;
       text-align: center; text-decoration: none;
       display: flex; align-items: center; justify-content: center;
@@ -77,7 +78,7 @@
     .badge-name.ks { color: #05CE78; }
     .badge-name.ig { color: #E31882; }
     .badge-name.gf { color: #00A86B; }
-    .badge-name.bk { color: #1A1A2E; }
+    .badge-name.bk { color: #0a0a0f; }
     .badge-sub { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
 
     /* ── HOW IT WORKS ── */
@@ -176,7 +177,7 @@
     .sig-title { font-size: 0.8rem; color: var(--muted); }
 
     /* ── FOOTER ── */
-    footer { background: #1B1226; padding: 64px 5vw 44px; text-align: center; border-top: 3px solid var(--gold); display: block; }
+    footer { background: #0a0a0f; padding: 64px 5vw 44px; text-align: center; border-top: 3px solid var(--gold); display: block; }
     .footer-logo { display: inline-block; font-family: var(--display); font-size: 2rem; font-weight: 800; color: var(--gold); text-decoration: none; margin-bottom: 1rem; letter-spacing: -0.01em; }
     footer p { font-size: 0.85rem; color: rgba(255,255,255,0.5); max-width: 520px; margin: 0 auto 1.75rem; line-height: 1.6; }
     .footer-social { display: flex; justify-content: center; gap: 0.9rem; margin-bottom: 1.5rem; }
@@ -212,7 +213,7 @@
     /* RESULTS (cards from Google Sheet) */
     #result { background: var(--cream); padding: 80px 5vw; text-align: center; }
     .stories-inner { max-width: 1080px; margin: 0 auto; }
-    .eyebrow { color: var(--gold-dark); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 0.9rem; }
+    .eyebrow { color: var(--sage); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 0.9rem; }
     h2.big { font-family: var(--display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
     .gold-line { display: block; width: 180px; height: 4px; background: var(--gold); border-radius: 2px; margin: 0.75rem auto 1.5rem; }
     #result .sub { font-size: 1rem; color: var(--muted); margin-bottom: 2.5rem; }
@@ -223,7 +224,7 @@
     .c-card .c-label { position: absolute; top: 0.75rem; left: 0.75rem; background: rgba(0,0,0,0.55); color: #fff; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.2rem 0.6rem; border-radius: 4px; }
     .c-card .c-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; text-align: left; }
     .c-card .c-amount { font-family: var(--display); font-size: 1.4rem; font-weight: 800; color: var(--gold); display: block; }
-    .c-card.sample { background: linear-gradient(160deg, #2C2C3E, #1A1A2E); }
+    .c-card.sample { background: linear-gradient(160deg, #1c1a16, #0a0a0f); }
     .c-card.sample .c-amount { color: rgba(255,255,255,0.55); font-size: 1rem; font-family: var(--body); font-weight: 600; }
     #result .sample-note { font-size: 0.8rem; color: var(--muted); margin-top: 1rem; font-style: italic; }
     #result .cta-row { margin-top: 2.5rem; }
@@ -242,7 +243,7 @@
     #how .step-card p { font-size: 0.9rem; }
     #how .cta-row { margin-top: 2.5rem; }
     .photo-ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .c-card.load { background: #ECE7DC; animation: pulse 1.2s ease-in-out infinite; }
+    .c-card.load { background: #E5DDD0; animation: pulse 1.2s ease-in-out infinite; }
     @keyframes pulse { 50% { opacity: 0.55; } }
   
     .page-hero { background: var(--white); padding: 130px 5vw 60px; text-align: center; }
@@ -287,6 +288,16 @@
     .enq-msg.err { display: block; background: #FFE0E0; color: #C0392B; }
     .enq-hp { position: absolute; left: -9999px; opacity: 0; height: 0; width: 0; }
     @media (max-width: 600px) { .enq-box { padding: 1.6rem 1.15rem 1.4rem; } }
+
+    /* ===== Fundraiser theme (cream, sage green, soft gold, Segoe UI) ===== */
+    :root { --sage: #3d6b5e; --sage-light: #5a9e8d; --ink: #1c1a16; }
+    body { background: var(--cream); color: var(--ink); -webkit-font-smoothing: antialiased; }
+    h1, h2, h3, .hero h1, .page-hero h1 { font-family: var(--display); font-weight: 800; letter-spacing: -0.01em; }
+    .hero, .page-hero { background: var(--cream); }
+    .eyebrow, .kicker { color: var(--sage) !important; }
+    .btn-gold-big, .btn-dark { font-family: var(--body); }
+    .btn-dark { background: var(--dark); color: var(--cream); }
+    .gold-line { background: var(--gold); }
   </style>
 </head>
 <body>
@@ -328,7 +339,7 @@
 </div>
 
 <section class="page-hero">
-  <p style="margin:0 auto .5rem;color:var(--gold-dark);font-weight:700;letter-spacing:.2em;text-transform:uppercase;font-size:.78rem;">Advertising</p>
+  <p style="margin:0 auto .5rem;color:var(--sage);font-weight:700;letter-spacing:.2em;text-transform:uppercase;font-size:.78rem;">Advertising</p>
   <h1>Put your brand in front of the crowdfunding community.</h1>
   <p>Backers Edge reaches creators, backers and makers who love new products and new ideas. Companies that fit can use our ad and sponsor spots.</p>
 </section>
