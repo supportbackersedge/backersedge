@@ -409,14 +409,31 @@
       (val?'<div class="rp-raised"><span class="rp-lab">RAISED</span><span class="rp-amount">'+esc(money(val))+'</span>'+(c.amount&&c.goal?'<span class="rp-goal">Goal: '+esc(money(c.goal))+'</span>':'')+'</div>':'')+(link?'<span class="rp-view">View campaign &rarr;</span>':'')+'</div>';
     return link ? '<a class="rp-card" href="'+esc(link)+'" target="_blank" rel="noopener">'+inner+'</a>' : '<div class="rp-card">'+inner+'</div>';
   }
+  // ---- Fill amounts the Sheet API hides (text like ¥735,381 typed in a number column) ----
+  function parseCsv(t){ var rows=[],row=[],f='',q=false; for(var i=0;i<t.length;i++){ var c=t[i]; if(q){ if(c==='"'){ if(t[i+1]==='"'){f+='"';i++;} else q=false; } else f+=c; } else if(c==='"') q=true; else if(c===','){ row.push(f); f=''; } else if(c==='\n'||c==='\r'){ if(c==='\r'&&t[i+1]==='\n') i++; row.push(f); rows.push(row); row=[]; f=''; } else f+=c; } if(f!==''||row.length){ row.push(f); rows.push(row); } return rows; }
+  function fillGaps(list){
+    if(!list.some(function(c){ return !c.amount || !c.goal; })) return Promise.resolve(list);
+    return fetch('https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/export?format=csv&gid=0').then(function(r){ if(!r.ok) throw 0; return r.text(); }).then(function(t){
+      var rows=parseCsv(t); if(rows.length<2) return list;
+      var nm=function(s){return String(s==null?'':s).toLowerCase().replace(/[^a-z]/g,'');}, head=rows[0].map(nm);
+      var idx=function(a){ for(var i=0;i<a.length;i++){ var n=head.indexOf(a[i]); if(n>-1) return n; } return -1; };
+      var iL=idx(['link','url','campaignlink']), iA=idx(['amount','raised','totalraised']), iG=idx(['goal','target','fundinggoal']);
+      if(iL<0) return list;
+      var by={}; rows.slice(1).forEach(function(r){ var k=String(r[iL]||'').trim(); if(k) by[k]=r; });
+      list.forEach(function(c){ var r=by[c.link]; if(!r) return; if(!c.amount && iA>-1 && String(r[iA]||'').trim()) c.amount=String(r[iA]).trim(); if(!c.goal && iG>-1 && String(r[iG]||'').trim()) c.goal=String(r[iG]).trim(); });
+      return list;
+    }).catch(function(){ return list; });
+  }
   function readCampaigns(j){
     var norm=function(s){return String(s==null?'':s).toLowerCase().replace(/[^a-z]/g,'');};
     var cols=j.table.cols.map(function(c){return norm(c.label||c.id);}), rows=j.table.rows;
     if(cols.indexOf('platform')<0 && rows.length){ cols=rows[0].c.map(function(c){return norm(c&&c.v);}); rows=rows.slice(1); }
-    var alias={platform:['platform','site'],amount:['amount','raised','totalraised'],image:['image','photo','picture'],title:['title','name'],tag:['tagline','taglin','tag','description'],link:['link','url','campaignlink'],featured:['featured','spotlight'],goal:['goal','target','fundinggoal']};
+    var alias={platform:['platform','site'],amount:['amount','raised','totalraised'],image:['image','photo','picture'],title:['title','name'],tag:['tagline','taglin','tag','description'],link:['link','url','campaignlink'],featured:['featured','spotlight'],recent:['recently','recent','new','latest'],goal:['goal','target','fundinggoal']};
     var ix={}; Object.keys(alias).forEach(function(k){ ix[k]=-1; for(var i=0;i<alias[k].length;i++){ var n=cols.indexOf(alias[k][i]); if(n>-1){ ix[k]=n; break; } } });
     function g(r,k){ var i=ix[k]; if(i<0) return ''; var c=r.c[i]; return c?String(c.f!=null?c.f:(c.v!=null?c.v:'')).trim():''; }
-    return rows.filter(function(r){return g(r,'platform');}).map(function(r){return {platform:g(r,'platform'),amount:g(r,'amount'),image:g(r,'image'),title:g(r,'title'),tag:g(r,'tag'),link:g(r,'link'),featured:g(r,'featured'),goal:g(r,'goal')};});
+    var list=rows.filter(function(r){return g(r,'platform');}).map(function(r,i){var rc=g(r,'recent'); return {platform:g(r,'platform'),amount:g(r,'amount'),image:g(r,'image'),title:g(r,'title'),tag:g(r,'tag'),link:g(r,'link'),featured:g(r,'featured'),goal:g(r,'goal'),recent:(rc!==''&&!/^(no|n|off|false|0|-)$/i.test(rc)),_i:i};});
+    // campaigns marked "recently" go to the top (sheet order kept inside each part)
+    return list.filter(function(c){return c.recent;}).concat(list.filter(function(c){return !c.recent;}));
   }
   var all=[], list=[], shown=0, STEP=12, current='All', grid=document.getElementById('rpGrid');
   function render(){
@@ -481,9 +498,11 @@
     .then(function(r){return r.text();})
     .then(function(t){
       var j=JSON.parse(t.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
-      all=readCampaigns(j);
+      return fillGaps(readCampaigns(j)).then(function(list){
+      all=list;
       if(!all.length){grid.outerHTML='<p class="rp-msg">New results are coming soon.</p>';return;}
       spotlight(); chips(); render();
+      });
     })
     .catch(function(){ grid.outerHTML='<p class="rp-msg">Results could not load. Please refresh the page.</p>'; });
 </script>
