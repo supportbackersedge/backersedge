@@ -340,7 +340,21 @@
     .btn-gold-big, .btn-dark { font-family: var(--body); }
     .btn-dark { background: var(--dark); color: var(--cream); }
     .gold-line { background: var(--gold); }
+
+    /* ===== Cards v3: more picture, raised beside amount ===== */
+    .rp-card { aspect-ratio: 1 / 1; }
+    .rp-card::after { background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.55) 64%, rgba(0,0,0,0.9) 100%); }
+    .rp-info { padding: 0.9rem; }
+    .rp-title { font-size: 0.95rem; line-height: 1.15; margin-bottom: 0.2rem; -webkit-line-clamp: 2; }
+    .rp-tag { font-size: 0.8rem; line-height: 1.3; margin-bottom: 0.45rem; -webkit-line-clamp: 2; }
+    .rp-raised { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.2rem 0.5rem; margin: 0; }
+    .rp-raised .rp-amount { display: inline; font-size: 1.3rem; line-height: 1.15; }
+    .rp-raised .rp-lab { display: inline; margin: 0; font-size: 0.64rem; letter-spacing: 0.14em; color: rgba(255,255,255,0.85); }
+    .rp-raised .rp-goal { flex-basis: 100%; margin: 0; font-size: 0.74rem; color: rgba(255,255,255,0.75); }
+    .rp-view { display: none; }
+    @media (max-width: 700px) { .rp-info { padding: 0.7rem; } .rp-title { font-size: 0.82rem; } .rp-tag { font-size: 0.7rem; margin-bottom: 0.35rem; } .rp-raised .rp-amount { font-size: 1.05rem; } .rp-raised .rp-lab { font-size: 0.56rem; } .rp-raised .rp-goal { font-size: 0.66rem; } }
   </style>
+<link rel="preconnect" href="https://docs.google.com">
 </head>
 <body>
 
@@ -385,7 +399,6 @@
   <p>Every entry links to the live campaign page on Kickstarter, Indiegogo or GoFundMe. Filter by platform.</p>
 </section>
 <section id="portfolio"><div class="svc-inner" style="max-width:1180px">
-  <div class="sp" id="spot" style="display:none"><div id="spSlides"></div><div class="sp-dots" id="spDots"></div></div>
   <h2 class="rp-sub-h">Backers Edge client campaigns</h2>
   <p class="rp-note">Shown with the approval of each project owner. Open any project for live totals and supporters.</p>
   <div class="rp-filters" id="rpFilters" style="display:none"></div>
@@ -405,8 +418,8 @@
     var link = /^https?:\/\//i.test(c.link) ? c.link : '';
     var val = c.amount || c.goal;
     var inner = (c.image?'<img src="'+esc(c.image)+'" alt="'+esc(c.title||c.platform)+'" loading="lazy" onerror="this.style.display=\'none\'">':'')+
-      '<span class="rp-pill">'+esc(c.platform)+'</span><div class="rp-info">'+(c.title?'<div class="rp-title" title="'+esc(c.title)+'">'+esc(shortTitle(c.title,40))+'</div>':'')+(c.tag?'<div class="rp-tag">'+esc(shortTag(c.tag,72))+'</div>':'')+
-      (val?'<div class="rp-raised"><span class="rp-lab">RAISED</span><span class="rp-amount">'+esc(money(val))+'</span>'+(c.amount&&c.goal?'<span class="rp-goal">Goal: '+esc(money(c.goal))+'</span>':'')+'</div>':'')+(link?'<span class="rp-view">View campaign &rarr;</span>':'')+'</div>';
+      '<span class="rp-pill">'+esc(c.platform)+'</span><div class="rp-info">'+(c.title?'<div class="rp-title" title="'+esc(c.title)+'">'+esc(shortTitle(c.title,40))+'</div>':'')+(c.tag?'<div class="rp-tag">'+esc(shortTag(c.tag,64))+'</div>':'')+
+      (val?'<div class="rp-raised"><span class="rp-amount">'+esc(money(val))+'</span><span class="rp-lab">RAISED</span>'+(c.amount&&c.goal?'<span class="rp-goal">Goal: '+esc(money(c.goal))+'</span>':'')+'</div>':'')+'</div>';
     return link ? '<a class="rp-card" href="'+esc(link)+'" target="_blank" rel="noopener">'+inner+'</a>' : '<div class="rp-card">'+inner+'</div>';
   }
   // ---- Fill amounts the Sheet API hides (text like ¥735,381 typed in a number column) ----
@@ -491,20 +504,39 @@
     if(seen.length<2){ f.style.display='none'; return; }
     f.innerHTML=['All'].concat(seen).map(function(n){ return '<button type="button" class="rp-chip'+(n==='All'?' on':'')+'" data-p="'+esc(n)+'">'+icon(n)+esc(n)+'</button>'; }).join('');
     f.style.display='flex';
-    f.addEventListener('click',function(e){ var b=e.target.closest('.rp-chip'); if(!b) return; current=b.getAttribute('data-p'); [].forEach.call(f.children,function(x){ x.classList.toggle('on',x===b); }); render(); });
+    [].forEach.call(f.children,function(x){ x.classList.toggle('on',x.getAttribute('data-p').toLowerCase()===current.toLowerCase()); });
+    if(!chipsBound){ chipsBound=true; f.addEventListener('click',function(e){ var b=e.target.closest('.rp-chip'); if(!b) return; current=b.getAttribute('data-p'); [].forEach.call(f.children,function(x){ x.classList.toggle('on',x===b); }); shown=0; renderKeep(); }); }
   }
   document.getElementById('rpMoreBtn').addEventListener('click',function(e){e.preventDefault();more();});
-  fetch('https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:json&headers=1&sheet=Sheet1')
-    .then(function(r){return r.text();})
-    .then(function(t){
-      var j=JSON.parse(t.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
-      return fillGaps(readCampaigns(j)).then(function(list){
-      all=list;
-      if(!all.length){grid.outerHTML='<p class="rp-msg">New results are coming soon.</p>';return;}
-      spotlight(); chips(); render();
-      });
-    })
-    .catch(function(){ grid.outerHTML='<p class="rp-msg">Results could not load. Please refresh the page.</p>'; });
+  // ---- Fast load: show saved results at once, then refresh quietly in the background ----
+  var CACHE_KEY='be_results_v3', lastSig='', chipsBound=false;
+  function renderKeep(){
+    var keep=Math.max(shown,STEP);
+    list = current==='All' ? all : all.filter(function(c){ return c.platform.toLowerCase()===current.toLowerCase(); });
+    shown=0; grid.innerHTML='';
+    if(!list.length){ grid.innerHTML='<p class="rp-msg" style="grid-column:1/-1">No campaigns here yet.</p>'; document.getElementById('rpMore').style.display='none'; return; }
+    while(shown<keep && shown<list.length) more();
+  }
+  function paint(l){
+    var sig=JSON.stringify(l); if(sig===lastSig) return; lastSig=sig; all=l;
+    if(!all.length){ grid.innerHTML='<p class="rp-msg" style="grid-column:1/-1">New results are coming soon.</p>'; document.getElementById('rpFilters').style.display='none'; document.getElementById('rpMore').style.display='none'; return; }
+    if(current!=='All' && !all.some(function(c){return c.platform.toLowerCase()===current.toLowerCase();})) current='All';
+    chips(); renderKeep();
+  }
+  function load(first){
+    return fetch('https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:json;reqId:'+Date.now()+'&headers=1&sheet=Sheet1',{cache:'no-store'})
+      .then(function(r){return r.text();})
+      .then(function(t){
+        var j=JSON.parse(t.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
+        var l=readCampaigns(j); paint(l);
+        return fillGaps(l).then(function(l2){ paint(l2); try{ localStorage.setItem(CACHE_KEY,JSON.stringify(l2)); }catch(e){} });
+      })
+      .catch(function(){ if(first && !all.length) grid.innerHTML='<p class="rp-msg" style="grid-column:1/-1">Results could not load. Please refresh the page.</p>'; });
+  }
+  try{ var saved=JSON.parse(localStorage.getItem(CACHE_KEY)||'null'); if(saved && saved.length) paint(saved); }catch(e){}
+  load(true);
+  setInterval(function(){ if(!document.hidden) load(false); },60000);
+  document.addEventListener('visibilitychange',function(){ if(!document.hidden) load(false); });
 </script>
 
 <div id="cta">
